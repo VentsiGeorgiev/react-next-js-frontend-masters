@@ -1,9 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pizza from "./Pizza";
 
 export default function Order() {
   const [pizzaType, setPizzaType] = useState("pepperoni");
   const [pizzaSize, setPizzaSize] = useState("M");
+  const [isLoading, setIsLoading] = useState(true);
+  const [pizzaTypes, setPizzaTypes] = useState([]);
+
+  let selectedPizza = pizzaTypes.find((pizza) => pizza.id === pizzaType);
+
+  async function fetchPizzaTypes() {
+    const pizzaRes = await fetch("/api/pizzas");
+    const pizzaJson = await pizzaRes.json();
+    setPizzaTypes(pizzaJson);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    fetchPizzaTypes();
+  }, []);
 
   return (
     <div className="order">
@@ -17,9 +32,14 @@ export default function Order() {
               value={pizzaType}
               onChange={(event) => setPizzaType(event.target.value)}
             >
-              <option value="pepperoni">The Pepperoni Pizza</option>
-              <option value="hawaiian">The Hawaiian Pizza</option>
-              <option value="big_meat">The Big Meat Pizza</option>
+              <option value="" disabled={true}>
+                Please select
+              </option>
+              {pizzaTypes.map((pizza) => (
+                <option key={pizza.id} value={pizza.id}>
+                  {pizza.name}
+                </option>
+              ))}
             </select>
           </div>
           <div>
@@ -62,14 +82,18 @@ export default function Order() {
           </div>
           <button type="submit">Add to Cart</button>
         </div>
-        <div className="order-pizza">
-          <Pizza
-            name="Pepperoni"
-            description="Mozzarella Cheese, Pepperoni"
-            image="/public/pizzas/pepperoni.webp"
-          />
-          <p>$13.37</p>
-        </div>
+        {isLoading ? (
+          <p>loading...</p>
+        ) : (
+          <div className="order-pizza">
+            <Pizza
+              name={selectedPizza.name}
+              description={selectedPizza.description}
+              image={selectedPizza.image}
+            />
+            <p>$ {selectedPizza.sizes[pizzaSize].toFixed(2)}</p>
+          </div>
+        )}
       </form>
     </div>
   );
