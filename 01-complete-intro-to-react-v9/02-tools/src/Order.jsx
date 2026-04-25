@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Pizza from "./Pizza";
 import Cart from "./Cart";
+import { CartContext } from "./contexts";
 
 export default function Order() {
   const [pizzaType, setPizzaType] = useState("pepperoni");
   const [pizzaSize, setPizzaSize] = useState("M");
   const [isLoading, setIsLoading] = useState(true);
   const [pizzaTypes, setPizzaTypes] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useContext(CartContext);
 
   let selectedPizza = pizzaTypes.find((pizza) => pizza.id === pizzaType);
 
