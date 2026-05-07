@@ -1,24 +1,42 @@
 import { Card } from '$/common/components/card';
-import { useEffect, useState } from 'react';
+import { use } from 'react';
 import { currentDate } from './utilities';
+import z from 'zod';
 
 type NewsArticleProps = {
   id: number;
 };
 
+const PostSchema = z.object({
+  id: z.coerce.number(),
+  title: z.string(),
+  body: z.string().nullable(),
+  authorEmail: z.email(),
+  published: z.coerce.boolean(),
+  tags: z.array(z.string()).default([]),
+  metadata: z.record(z.string(), z.unknown()),
+});
+
 const fetchArticle = async (id: number) => {
   const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-  return response.json();
+  const possiblePost = response.json();
+  return PostSchema.parse(possiblePost);
 };
 
 export const NewsArticle = ({ id = 1 }: NewsArticleProps) => {
-  // Important: The type for article is any because the API returns.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [article, setArticle] = useState<any>(null);
+  // const [article, setArticle] = useState<Post | null>(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    fetchArticle(id).then((data) => setArticle(data));
-  }, [id]);
+  // useEffect(() => {
+  //   fetchArticle(id).then((data) => setArticle(data));
+  // }, [id]);
+
+  // if (!article) {
+  //   return null;
+  // }
+
+  const article = use(fetchArticle(id));
 
   return (
     <Card as="article" className="space-y-4 font-mono md:first:col-span-2">
