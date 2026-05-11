@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,16 +23,19 @@ function FilteredDestinations() {
     { id: 3, name: "New York", country: "USA", rating: 4.3 },
   ]);
   const [filterRating, setFilterRating] = useState(4.5);
-  const [filteredDestinations, setFilteredDestinations] = useState<
-    typeof destinations
-  >([]);
+  // const [filteredDestinations, setFilteredDestinations] = useState<
+  //   typeof destinations
+  // >([]);
 
   // This effect is unnecessary - we can derive filtered destinations
-  useEffect(() => {
-    setFilteredDestinations(
-      destinations.filter((dest) => dest.rating >= filterRating),
-    );
-  }, [destinations, filterRating]);
+  // useEffect(() => {
+  //   setFilteredDestinations(
+  //     destinations.filter((dest) => dest.rating >= filterRating),
+  //   );
+  // }, [destinations, filterRating]);
+  const filteredDestinations = destinations.filter(
+    (dest) => dest.rating >= filterRating,
+  );
 
   return (
     <Card>
@@ -83,12 +86,14 @@ function TripSummary() {
     { id: 2, name: "Hotel", cost: 300 },
     { id: 3, name: "Activities", cost: 200 },
   ]);
-  const [totalCost, setTotalCost] = useState(0);
+  // const [totalCost, setTotalCost] = useState(0);
 
   // This effect is unnecessary - we can derive total cost
-  useEffect(() => {
-    setTotalCost(tripItems.reduce((sum, item) => sum + item.cost, 0));
-  }, [tripItems]);
+  // useEffect(() => {
+  //   setTotalCost(tripItems.reduce((sum, item) => sum + item.cost, 0));
+  // }, [tripItems]);
+
+  const totalCost = tripItems.reduce((sum, item) => sum + item.cost, 0);
 
   return (
     <Card>
@@ -122,20 +127,28 @@ function TripSummary() {
 }
 
 // Example 3: Available Dates
-// Problem: Storing available dates in state when they can be derived from booked dates
+// Problem : Storing available dates in state when they can be derived from booked dates
 function AvailableDates() {
   const [bookedDates] = useState(["2024-06-01", "2024-06-02", "2024-06-03"]);
-  const [availableDates, setAvailableDates] = useState<string[]>([]);
+  // const [availableDates, setAvailableDates] = useState<string[]>([]);
 
-  // This effect is unnecessary - we can derive available dates
-  useEffect(() => {
-    const allDates = Array.from({ length: 30 }, (_, i) => {
-      const date = new Date("2024-06-01");
-      date.setDate(date.getDate() + i);
-      return date.toISOString().split("T")[0];
-    });
-    setAvailableDates(allDates.filter((date) => !bookedDates.includes(date)));
-  }, [bookedDates]);
+  // // This effect is unnecessary - we can derive available dates
+  // useEffect(() => {
+  //   const allDates = Array.from({ length: 30 }, (_, i) => {
+  //     const date = new Date("2024-06-01");
+  //     date.setDate(date.getDate() + i);
+  //     return date.toISOString().split("T")[0];
+  //   });
+  //   setAvailableDates(allDates.filter((date) => !bookedDates.includes(date)));
+  // }, [bookedDates]);
+
+  const allDates = Array.from({ length: 30 }, (_, i) => {
+    const date = new Date("2024-06-01");
+    date.setDate(date.getDate() + i);
+    return date.toISOString().split("T")[0];
+  });
+
+  const availableDates = allDates.filter((date) => !bookedDates.includes(date));
 
   return (
     <Card>
@@ -177,20 +190,32 @@ function TripStatus() {
     isPaid: true,
     isConfirmed: true,
   });
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
 
   // This effect is unnecessary - we can derive status
-  useEffect(() => {
-    const today = new Date();
-    const start = new Date(trip.startDate);
-    const end = new Date(trip.endDate);
+  // useEffect(() => {
+  //   const today = new Date();
+  //   const start = new Date(trip.startDate);
+  //   const end = new Date(trip.endDate);
 
-    if (!trip.isPaid) setStatus("Payment Pending");
-    else if (!trip.isConfirmed) setStatus("Awaiting Confirmation");
-    else if (today < start) setStatus("Upcoming");
-    else if (today >= start && today <= end) setStatus("In Progress");
-    else setStatus("Completed");
-  }, [trip]);
+  //   if (!trip.isPaid) setStatus("Payment Pending");
+  //   else if (!trip.isConfirmed) setStatus("Awaiting Confirmation");
+  //   else if (today < start) setStatus("Upcoming");
+  //   else if (today >= start && today <= end) setStatus("In Progress");
+  //   else setStatus("Completed");
+  // }, [trip]);
+
+  let status: string;
+
+  const today = new Date();
+  const start = new Date(trip.startDate);
+  const end = new Date(trip.endDate);
+
+  if (!trip.isPaid) status = "Payment Pending";
+  else if (!trip.isConfirmed) status = "Awaiting Confirmation";
+  else if (today < start) status = "Upcoming";
+  else if (today >= start && today <= end) status = "In Progress";
+  else status = "Completed";
 
   const getStatusVariant = (status: string) => {
     switch (status) {
@@ -238,16 +263,21 @@ function SearchResults() {
     { id: 3, name: "City Hotel", price: 180, rating: 4.7 },
   ]);
   const [sortBy, setSortBy] = useState("price");
-  const [sortedResults, setSortedResults] = useState<typeof searchResults>([]);
+  // const [sortedResults, setSortedResults] = useState<typeof searchResults>([]);
 
   // This effect is unnecessary - we can derive sorted results
-  useEffect(() => {
-    const sorted = [...searchResults].sort((a, b) => {
-      if (sortBy === "price") return a.price - b.price;
-      return b.rating - a.rating;
-    });
-    setSortedResults(sorted);
-  }, [searchResults, sortBy]);
+  // useEffect(() => {
+  //   const sorted = [...searchResults].sort((a, b) => {
+  //     if (sortBy === "price") return a.price - b.price;
+  //     return b.rating - a.rating;
+  //   });
+  //   setSortedResults(sorted);
+  // }, [searchResults, sortBy]);
+
+  const sortedResults = [...searchResults].sort((a, b) => {
+    if (sortBy === "price") return a.price - b.price;
+    return b.rating - a.rating;
+  });
 
   return (
     <Card>
@@ -300,37 +330,41 @@ function SearchResults() {
 // Problem: Using useState for timer ID when useRef should be used (doesn't need re-renders)
 function BookingTimer() {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
-  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null); // ❌ Should use useRef
+  // const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null); // ❌ Should use useRef
+  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const startTimer = () => {
-    if (timerId) clearInterval(timerId);
+    if (timerIdRef.current) clearInterval(timerIdRef.current);
 
     const id = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(id);
-          setTimerId(null); // ❌ Unnecessary re-render
+          // setTimerId(null); // ❌ Unnecessary re-render
+          timerIdRef.current = null;
           return 0;
         }
         return prev - 1;
       });
     }, 1000);
 
-    setTimerId(id); // ❌ Unnecessary re-render
+    // setTimerId(id); // ❌ Unnecessary re-render
+    timerIdRef.current = id;
   };
 
   const stopTimer = () => {
-    if (timerId) {
-      clearInterval(timerId);
-      setTimerId(null); // ❌ Unnecessary re-render
+    if (timerIdRef.current) {
+      clearInterval(timerIdRef.current);
+      // setTimerId(null); // ❌ Unnecessary re-render
+      timerIdRef.current = null;
     }
   };
 
   useEffect(() => {
     return () => {
-      if (timerId) clearInterval(timerId);
+      if (timerIdRef.current) clearInterval(timerIdRef.current);
     };
-  }, [timerId]); // ❌ Effect runs every time timerId changes
+  }, []);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -378,17 +412,19 @@ function HotelGallery() {
     "hotel-pool.jpg",
     "hotel-restaurant.jpg",
   ]);
-  const [lastScrollPosition, setLastScrollPosition] = useState(0); // ❌ Should use useRef
+  // const [lastScrollPosition, setLastScrollPosition] = useState(0); // ❌ Should use useRef
+  const lastScrollPositionRef = useRef<number>(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentPosition = window.scrollY;
 
       // We only need this for internal logic, not for rendering
-      setLastScrollPosition(currentPosition); // ❌ Causes unnecessary re-render
+      // setLastScrollPosition(currentPosition); // ❌ Causes unnecessary re-render
+      lastScrollPositionRef.current = currentPosition;
 
       // Some scroll-based logic here...
-      if (currentPosition > lastScrollPosition) {
+      if (currentPosition > lastScrollPositionRef.current) {
         console.log("Scrolling down");
       } else {
         console.log("Scrolling up");
@@ -397,7 +433,7 @@ function HotelGallery() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollPosition]); // ❌ Effect re-runs on every scroll
+  }, []);
 
   return (
     <Card>
@@ -420,7 +456,7 @@ function HotelGallery() {
           ))}
         </div>
         <div className="mt-4 text-xs text-muted-foreground">
-          Debug: Last scroll position: {lastScrollPosition}px
+          Debug: Last scroll position: {lastScrollPositionRef.current}px
         </div>
       </CardContent>
     </Card>
