@@ -470,15 +470,19 @@ function FlightSearch() {
   const [searchResults, setSearchResults] = useState<
     Array<{ id: number; flight: string; price: number }>
   >([]);
-  const [searchCount, setSearchCount] = useState(0); // ❌ Should use useRef
-  const [lastSearchTime, setLastSearchTime] = useState<number | null>(null); // ❌ Should use useRef
+  // const [searchCount, setSearchCount] = useState(0); // ❌ Should use useRef
+  const searchCountRef = useRef<number>(0);
+  // const [lastSearchTime, setLastSearchTime] = useState<number | null>(null); // ❌ Should use useRef
+  const lastSearchTimeRef = useRef<number | null>(null);
 
   const handleSearch = async () => {
     const now = Date.now();
 
     // Track search analytics (doesn't affect UI)
-    setSearchCount((prev) => prev + 1); // ❌ Unnecessary re-render
-    setLastSearchTime(now); // ❌ Unnecessary re-render
+    // setSearchCount((prev) => prev + 1); // ❌ Unnecessary re-render
+    searchCountRef.current += 1;
+    // setLastSearchTime(now); // ❌ Unnecessary re-render
+    lastSearchTimeRef.current = now;
 
     // Simulate API call
     setTimeout(() => {
@@ -489,7 +493,7 @@ function FlightSearch() {
     }, 1000);
 
     // Analytics logic that doesn't need to trigger re-renders
-    if (lastSearchTime && now - lastSearchTime < 1000) {
+    if (lastSearchTimeRef.current && now - lastSearchTimeRef.current < 1000) {
       console.log("User is searching too quickly");
     }
   };
@@ -530,7 +534,8 @@ function FlightSearch() {
         )}
 
         <div className="text-xs text-muted-foreground border-t pt-2">
-          Debug: Search count: {searchCount}, Last search: {lastSearchTime}
+          Debug: Search count: {searchCountRef.current}, Last search:{" "}
+          {lastSearchTimeRef.current}
         </div>
       </CardContent>
     </Card>
@@ -563,13 +568,13 @@ function HotelSelection() {
       amenities: ["WiFi", "Pool", "Beach Access"],
     },
   ]);
-  const [selectedHotel, setSelectedHotel] = useState<(typeof hotels)[0] | null>(
-    null,
-  ); // ❌ Storing entire object
+  const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null); // ❌ Storing entire object
 
-  const handleHotelSelect = (hotel: (typeof hotels)[0]) => {
-    setSelectedHotel(hotel); // ❌ Storing the entire hotel object instead of just the ID!
+  const handleHotelSelect = (hotelId: string) => {
+    setSelectedHotelId(hotelId); // ❌ Storing the entire hotel object instead of just the ID!
   };
+
+  const selectedHotel = hotels.find((hotel) => hotel.id === selectedHotelId);
 
   return (
     <Card>
@@ -590,7 +595,7 @@ function HotelSelection() {
                   ? "border-primary bg-primary/5"
                   : "hover:bg-accent"
               }`}
-              onClick={() => handleHotelSelect(hotel)}
+              onClick={() => handleHotelSelect(hotel.id)}
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -654,18 +659,18 @@ function TravelPreferences() {
   });
 
   // ❌ Storing duplicate user data that's already available
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userBudget, setUserBudget] = useState("");
-  const [userTravelStyle, setUserTravelStyle] = useState("");
+  // const [userName, setUserName] = useState("");
+  // const [userEmail, setUserEmail] = useState("");
+  // const [userBudget, setUserBudget] = useState("");
+  // const [userTravelStyle, setUserTravelStyle] = useState("");
 
   // ❌ These effects are unnecessary - we already have this data!
-  useEffect(() => {
-    setUserName(userProfile.name); // ❌ Redundant state
-    setUserEmail(userProfile.email); // ❌ Redundant state
-    setUserBudget(userProfile.preferences.budget); // ❌ Redundant state
-    setUserTravelStyle(userProfile.preferences.travelStyle); // ❌ Redundant state
-  }, [userProfile]);
+  // useEffect(() => {
+  //   setUserName(userProfile.name); // ❌ Redundant state
+  //   setUserEmail(userProfile.email); // ❌ Redundant state
+  //   setUserBudget(userProfile.preferences.budget); // ❌ Redundant state
+  //   setUserTravelStyle(userProfile.preferences.travelStyle); // ❌ Redundant state
+  // }, [userProfile]);
 
   return (
     <Card>
@@ -704,16 +709,16 @@ function TravelPreferences() {
             </Label>
             <div className="mt-1 space-y-1 text-sm">
               <p>
-                <strong>Name:</strong> {userName}
+                <strong>Name:</strong> {userProfile.name}
               </p>
               <p>
-                <strong>Email:</strong> {userEmail}
+                <strong>Email:</strong> {userProfile.email}
               </p>
               <p>
-                <strong>Budget:</strong> {userBudget}
+                <strong>Budget:</strong> {userProfile.preferences.budget}
               </p>
               <p>
-                <strong>Style:</strong> {userTravelStyle}
+                <strong>Style:</strong> {userProfile.preferences.travelStyle}
               </p>
             </div>
           </div>
