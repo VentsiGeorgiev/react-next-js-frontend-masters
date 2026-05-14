@@ -1,14 +1,14 @@
-import { db } from '@/db';
+import { db } from "@/db";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import Link from 'next/link';
-import { format } from 'date-fns';
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { format } from "date-fns";
 
 export default async function ItineraryPage() {
   const allItineraries = await db.query.itineraries.findMany({
@@ -35,8 +35,8 @@ export default async function ItineraryPage() {
               <CardHeader>
                 <CardTitle className="text-lg">{itinerary.name}</CardTitle>
                 <CardDescription>
-                  {itinerary.people}{' '}
-                  {itinerary.people === 1 ? 'person' : 'people'}
+                  {itinerary.people}{" "}
+                  {itinerary.people === 1 ? "person" : "people"}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -48,10 +48,10 @@ export default async function ItineraryPage() {
                         <Badge variant="outline">{destination.location}</Badge>
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        {format(new Date(destination.arrivalDate), 'MMM d')} -{' '}
+                        {format(new Date(destination.arrivalDate), "MMM d")} -{" "}
                         {format(
                           new Date(destination.departureDate),
-                          'MMM d, yyyy'
+                          "MMM d, yyyy",
                         )}
                       </div>
                     </div>

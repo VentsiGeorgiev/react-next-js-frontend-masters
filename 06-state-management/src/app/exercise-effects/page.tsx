@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Flight {
   id: string;
@@ -22,9 +22,9 @@ interface Hotel {
 
 export default function TripSearch() {
   // Input states
-  const [destination, setDestination] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [destination, setDestination] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // Search states
   const [isSearchingFlights, setIsSearchingFlights] = useState(false);
@@ -53,30 +53,30 @@ export default function TripSearch() {
         // Mock flight data
         const flights: Flight[] = [
           {
-            id: '1',
+            id: "1",
             price: 299,
-            airline: 'Mock Airlines',
-            departureTime: '10:00 AM',
-            arrivalTime: '2:00 PM',
+            airline: "Mock Airlines",
+            departureTime: "10:00 AM",
+            arrivalTime: "2:00 PM",
           },
           {
-            id: '2',
+            id: "2",
             price: 399,
-            airline: 'Demo Airways',
-            departureTime: '2:00 PM',
-            arrivalTime: '6:00 PM',
+            airline: "Demo Airways",
+            departureTime: "2:00 PM",
+            arrivalTime: "6:00 PM",
           },
         ];
 
         // Pick the cheapest flight
         const bestFlight = flights.reduce((prev, current) =>
-          prev.price < current.price ? prev : current
+          prev.price < current.price ? prev : current,
         );
 
         setSelectedFlight(bestFlight);
         setIsSearchingFlights(false);
       } catch {
-        setError('Failed to search flights');
+        setError("Failed to search flights");
         setIsSearchingFlights(false);
       }
     };
@@ -103,14 +103,14 @@ export default function TripSearch() {
         // Mock hotel data
         const hotels: Hotel[] = [
           {
-            id: '1',
-            name: 'Grand Hotel',
+            id: "1",
+            name: "Grand Hotel",
             price: 150,
             rating: 4.5,
           },
           {
-            id: '2',
-            name: 'Budget Inn',
+            id: "2",
+            name: "Budget Inn",
             price: 80,
             rating: 3.8,
           },
@@ -118,13 +118,13 @@ export default function TripSearch() {
 
         // Pick the best rated hotel
         const bestHotel = hotels.reduce((prev, current) =>
-          prev.rating > current.rating ? prev : current
+          prev.rating > current.rating ? prev : current,
         );
 
         setSelectedHotel(bestHotel);
         setIsSearchingHotels(false);
       } catch {
-        setError('Failed to search hotels');
+        setError("Failed to search hotels");
         setIsSearchingHotels(false);
       }
     };
@@ -177,7 +177,7 @@ export default function TripSearch() {
       )}
 
       <div className="space-y-6">
-        <Card className={isSearchingFlights ? 'opacity-50' : ''}>
+        <Card className={isSearchingFlights ? "opacity-50" : ""}>
           <CardHeader>
             <CardTitle>Flight Search</CardTitle>
           </CardHeader>
@@ -198,7 +198,7 @@ export default function TripSearch() {
 
         <Card
           className={
-            isSearchingHotels || isSearchingFlights ? 'opacity-50' : ''
+            isSearchingHotels || isSearchingFlights ? "opacity-50" : ""
           }
         >
           <CardHeader>

@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { createContext, use, useReducer, ReactNode } from 'react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { createContext, use, useReducer, ReactNode } from "react";
 
 // Types
 const enum Step {
-  FlightSearch = 'FlightSearch',
-  FlightResults = 'FlightResults',
-  HotelSearch = 'HotelSearch',
-  HotelResults = 'HotelResults',
-  Review = 'Review',
-  Confirmation = 'Confirmation',
+  FlightSearch = "FlightSearch",
+  FlightResults = "FlightResults",
+  HotelSearch = "HotelSearch",
+  HotelResults = "HotelResults",
+  Review = "Review",
+  Confirmation = "Confirmation",
 }
 
 interface FlightOption {
@@ -53,7 +53,7 @@ interface BookingState {
 // Action types
 type BookingAction =
   | {
-      type: 'flightSearchUpdated';
+      type: "flightSearchUpdated";
       payload: Partial<{
         destination: string;
         departure: string;
@@ -62,11 +62,11 @@ type BookingAction =
         isOneWay: boolean;
       }>;
     }
-  | { type: 'searchFlights' }
-  | { type: 'flightSelected'; payload: { flight: FlightOption } }
-  | { type: 'changeFlight' }
+  | { type: "searchFlights" }
+  | { type: "flightSelected"; payload: { flight: FlightOption } }
+  | { type: "changeFlight" }
   | {
-      type: 'hotelSearchUpdated';
+      type: "hotelSearchUpdated";
       payload: Partial<{
         checkIn: string;
         checkOut: string;
@@ -74,27 +74,27 @@ type BookingAction =
         roomType: string;
       }>;
     }
-  | { type: 'searchHotels' }
-  | { type: 'hotelSelected'; payload: { hotel: HotelOption } }
-  | { type: 'changeHotel' }
-  | { type: 'book' }
-  | { type: 'back' };
+  | { type: "searchHotels" }
+  | { type: "hotelSelected"; payload: { hotel: HotelOption } }
+  | { type: "changeHotel" }
+  | { type: "book" }
+  | { type: "back" };
 
 const initialState: BookingState = {
   currentStep: Step.FlightSearch,
   flightSearch: {
-    destination: '',
-    departure: '',
-    arrival: '',
+    destination: "",
+    departure: "",
+    arrival: "",
     passengers: 1,
     isOneWay: false,
   },
   selectedFlight: null,
   hotelSearch: {
-    checkIn: '',
-    checkOut: '',
+    checkIn: "",
+    checkOut: "",
     guests: 1,
-    roomType: 'standard',
+    roomType: "standard",
   },
   selectedHotel: null,
 };
@@ -102,57 +102,57 @@ const initialState: BookingState = {
 // Reducer
 function bookingReducer(
   state: BookingState,
-  action: BookingAction
+  action: BookingAction,
 ): BookingState {
   switch (action.type) {
-    case 'flightSearchUpdated':
+    case "flightSearchUpdated":
       return {
         ...state,
         flightSearch: { ...state.flightSearch, ...action.payload },
       };
-    case 'searchFlights':
+    case "searchFlights":
       return {
         ...state,
         currentStep: Step.FlightResults,
       };
-    case 'flightSelected':
+    case "flightSelected":
       return {
         ...state,
         selectedFlight: action.payload.flight,
         currentStep: Step.HotelSearch,
       };
-    case 'changeFlight':
+    case "changeFlight":
       return {
         ...state,
         currentStep: Step.FlightSearch,
       };
-    case 'hotelSearchUpdated':
+    case "hotelSearchUpdated":
       return {
         ...state,
         hotelSearch: { ...state.hotelSearch, ...action.payload },
       };
-    case 'searchHotels':
+    case "searchHotels":
       return {
         ...state,
         currentStep: Step.HotelResults,
       };
-    case 'hotelSelected':
+    case "hotelSelected":
       return {
         ...state,
         selectedHotel: action.payload.hotel,
         currentStep: Step.Review,
       };
-    case 'changeHotel':
+    case "changeHotel":
       return {
         ...state,
         currentStep: Step.HotelSearch,
       };
-    case 'book':
+    case "book":
       return {
         ...state,
         currentStep: Step.Confirmation,
       };
-    case 'back':
+    case "back":
       switch (state.currentStep) {
         case Step.FlightResults:
           return {
@@ -205,7 +205,7 @@ function BookingProvider({ children }: { children: ReactNode }) {
 function useBooking() {
   const context = use(BookingContext);
   if (context === undefined) {
-    throw new Error('useBooking must be used within a BookingProvider');
+    throw new Error("useBooking must be used within a BookingProvider");
   }
   return context;
 }
@@ -217,7 +217,7 @@ function FlightBookingForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch({ type: 'searchFlights' });
+    dispatch({ type: "searchFlights" });
   };
 
   return (
@@ -228,7 +228,7 @@ function FlightBookingForm() {
           checked={flightSearch.isOneWay}
           onCheckedChange={(checked) =>
             dispatch({
-              type: 'flightSearchUpdated',
+              type: "flightSearchUpdated",
               payload: { isOneWay: checked },
             })
           }
@@ -244,7 +244,7 @@ function FlightBookingForm() {
           value={flightSearch.destination}
           onChange={(e) =>
             dispatch({
-              type: 'flightSearchUpdated',
+              type: "flightSearchUpdated",
               payload: { destination: e.target.value },
             })
           }
@@ -260,7 +260,7 @@ function FlightBookingForm() {
           value={flightSearch.departure}
           onChange={(e) =>
             dispatch({
-              type: 'flightSearchUpdated',
+              type: "flightSearchUpdated",
               payload: { departure: e.target.value },
             })
           }
@@ -277,7 +277,7 @@ function FlightBookingForm() {
             value={flightSearch.arrival}
             onChange={(e) =>
               dispatch({
-                type: 'flightSearchUpdated',
+                type: "flightSearchUpdated",
                 payload: { arrival: e.target.value },
               })
             }
@@ -294,7 +294,7 @@ function FlightBookingForm() {
           value={flightSearch.passengers}
           onChange={(e) =>
             dispatch({
-              type: 'flightSearchUpdated',
+              type: "flightSearchUpdated",
               payload: { passengers: parseInt(e.target.value) },
             })
           }
@@ -316,13 +316,13 @@ function FlightSearchResults() {
   const selectedFlight = state.selectedFlight;
 
   const mockFlights: FlightOption[] = [
-    { id: '1', airline: 'Sky Airways', price: 299, duration: '2h 30m' },
-    { id: '2', airline: 'Ocean Air', price: 349, duration: '2h 45m' },
-    { id: '3', airline: 'Mountain Express', price: 279, duration: '3h 15m' },
+    { id: "1", airline: "Sky Airways", price: 299, duration: "2h 30m" },
+    { id: "2", airline: "Ocean Air", price: 349, duration: "2h 45m" },
+    { id: "3", airline: "Mountain Express", price: 279, duration: "3h 15m" },
   ];
 
   const handleSelectFlight = (flight: FlightOption) => {
-    dispatch({ type: 'flightSelected', payload: { flight } });
+    dispatch({ type: "flightSelected", payload: { flight } });
   };
 
   return (
@@ -332,7 +332,7 @@ function FlightSearchResults() {
         <Button
           variant="outline"
           onClick={() => {
-            dispatch({ type: 'back' });
+            dispatch({ type: "back" });
           }}
         >
           Back to Search
@@ -345,8 +345,8 @@ function FlightSearchResults() {
             key={flight.id}
             className={`p-4 border rounded hover:shadow-md ${
               selectedFlight?.id === flight.id
-                ? 'border-blue-500 bg-blue-50'
-                : ''
+                ? "border-blue-500 bg-blue-50"
+                : ""
             }`}
           >
             <div className="flex justify-between items-center">
@@ -377,7 +377,7 @@ function HotelBookingForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch({ type: 'searchHotels' });
+    dispatch({ type: "searchHotels" });
   };
 
   return (
@@ -387,7 +387,7 @@ function HotelBookingForm() {
         <Button
           variant="outline"
           onClick={() => {
-            dispatch({ type: 'back' });
+            dispatch({ type: "back" });
           }}
         >
           Back to Flights
@@ -401,7 +401,7 @@ function HotelBookingForm() {
           value={hotelSearch.checkIn}
           onChange={(e) =>
             dispatch({
-              type: 'hotelSearchUpdated',
+              type: "hotelSearchUpdated",
               payload: { checkIn: e.target.value },
             })
           }
@@ -417,7 +417,7 @@ function HotelBookingForm() {
           value={hotelSearch.checkOut}
           onChange={(e) =>
             dispatch({
-              type: 'hotelSearchUpdated',
+              type: "hotelSearchUpdated",
               payload: { checkOut: e.target.value },
             })
           }
@@ -433,7 +433,7 @@ function HotelBookingForm() {
           value={hotelSearch.guests}
           onChange={(e) =>
             dispatch({
-              type: 'hotelSearchUpdated',
+              type: "hotelSearchUpdated",
               payload: { guests: parseInt(e.target.value) },
             })
           }
@@ -450,7 +450,7 @@ function HotelBookingForm() {
           value={hotelSearch.roomType}
           onChange={(e) =>
             dispatch({
-              type: 'hotelSearchUpdated',
+              type: "hotelSearchUpdated",
               payload: { roomType: e.target.value },
             })
           }
@@ -476,30 +476,30 @@ function HotelSearchResults() {
 
   const mockHotels: HotelOption[] = [
     {
-      id: '1',
-      name: 'Grand Hotel',
+      id: "1",
+      name: "Grand Hotel",
       price: 199,
       rating: 4.5,
-      amenities: ['Pool', 'Spa', 'Restaurant'],
+      amenities: ["Pool", "Spa", "Restaurant"],
     },
     {
-      id: '2',
-      name: 'Seaside Resort',
+      id: "2",
+      name: "Seaside Resort",
       price: 249,
       rating: 4.8,
-      amenities: ['Beach Access', 'Pool', 'Bar'],
+      amenities: ["Beach Access", "Pool", "Bar"],
     },
     {
-      id: '3',
-      name: 'City Center Hotel',
+      id: "3",
+      name: "City Center Hotel",
       price: 179,
       rating: 4.2,
-      amenities: ['Gym', 'Restaurant', 'Business Center'],
+      amenities: ["Gym", "Restaurant", "Business Center"],
     },
   ];
 
   const handleSelectHotel = (hotel: HotelOption) => {
-    dispatch({ type: 'hotelSelected', payload: { hotel } });
+    dispatch({ type: "hotelSelected", payload: { hotel } });
   };
 
   return (
@@ -509,7 +509,7 @@ function HotelSearchResults() {
         <Button
           variant="outline"
           onClick={() => {
-            dispatch({ type: 'back' });
+            dispatch({ type: "back" });
           }}
         >
           Back to Search
@@ -521,7 +521,7 @@ function HotelSearchResults() {
           <div
             key={hotel.id}
             className={`p-4 border rounded hover:shadow-md ${
-              selectedHotel?.id === hotel.id ? 'border-blue-500 bg-blue-50' : ''
+              selectedHotel?.id === hotel.id ? "border-blue-500 bg-blue-50" : ""
             }`}
           >
             <div className="flex justify-between items-center">
@@ -529,7 +529,7 @@ function HotelSearchResults() {
                 <h3 className="font-medium">{hotel.name}</h3>
                 <p className="text-gray-600">Rating: {hotel.rating}/5</p>
                 <p className="text-sm text-gray-500">
-                  {hotel.amenities.join(', ')}
+                  {hotel.amenities.join(", ")}
                 </p>
               </div>
               <div className="text-right">
@@ -557,11 +557,11 @@ function BookingReview() {
   const hotelSearch = state.hotelSearch;
 
   const handleConfirm = () => {
-    dispatch({ type: 'book' });
+    dispatch({ type: "book" });
   };
 
   const handleBack = () => {
-    dispatch({ type: 'back' });
+    dispatch({ type: "back" });
   };
 
   return (
@@ -579,7 +579,7 @@ function BookingReview() {
             variant="outline"
             className="mt-2"
             onClick={() => {
-              dispatch({ type: 'changeFlight' });
+              dispatch({ type: "changeFlight" });
             }}
           >
             Change Flight
@@ -597,7 +597,7 @@ function BookingReview() {
             variant="outline"
             className="mt-2"
             onClick={() => {
-              dispatch({ type: 'changeHotel' });
+              dispatch({ type: "changeHotel" });
             }}
           >
             Change Hotel

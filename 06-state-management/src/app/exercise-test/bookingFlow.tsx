@@ -1,11 +1,11 @@
 // Types
 export const enum Step {
-  FlightSearch = 'FlightSearch',
-  FlightResults = 'FlightResults',
-  HotelSearch = 'HotelSearch',
-  HotelResults = 'HotelResults',
-  Review = 'Review',
-  Confirmation = 'Confirmation',
+  FlightSearch = "FlightSearch",
+  FlightResults = "FlightResults",
+  HotelSearch = "HotelSearch",
+  HotelResults = "HotelResults",
+  Review = "Review",
+  Confirmation = "Confirmation",
 }
 
 interface FlightOption {
@@ -45,7 +45,7 @@ interface BookingState {
 // Action types
 type BookingAction =
   | {
-      type: 'flightSearchUpdated';
+      type: "flightSearchUpdated";
       payload: Partial<{
         destination: string;
         departure: string;
@@ -54,11 +54,11 @@ type BookingAction =
         isOneWay: boolean;
       }>;
     }
-  | { type: 'searchFlights' }
-  | { type: 'flightSelected'; payload: { flight: FlightOption } }
-  | { type: 'changeFlight' }
+  | { type: "searchFlights" }
+  | { type: "flightSelected"; payload: { flight: FlightOption } }
+  | { type: "changeFlight" }
   | {
-      type: 'hotelSearchUpdated';
+      type: "hotelSearchUpdated";
       payload: Partial<{
         checkIn: string;
         checkOut: string;
@@ -66,84 +66,84 @@ type BookingAction =
         roomType: string;
       }>;
     }
-  | { type: 'searchHotels' }
-  | { type: 'hotelSelected'; payload: { hotel: HotelOption } }
-  | { type: 'changeHotel' }
-  | { type: 'book' }
-  | { type: 'back' };
+  | { type: "searchHotels" }
+  | { type: "hotelSelected"; payload: { hotel: HotelOption } }
+  | { type: "changeHotel" }
+  | { type: "book" }
+  | { type: "back" };
 
 export const initialState: BookingState = {
   currentStep: Step.FlightSearch,
   flightSearch: {
-    destination: '',
-    departure: '',
-    arrival: '',
+    destination: "",
+    departure: "",
+    arrival: "",
     passengers: 1,
     isOneWay: false,
   },
   selectedFlight: null,
   hotelSearch: {
-    checkIn: '',
-    checkOut: '',
+    checkIn: "",
+    checkOut: "",
     guests: 1,
-    roomType: 'standard',
+    roomType: "standard",
   },
   selectedHotel: null,
 };
 
 export function bookingReducer(
   state: BookingState,
-  action: BookingAction
+  action: BookingAction,
 ): BookingState {
   switch (action.type) {
-    case 'flightSearchUpdated':
+    case "flightSearchUpdated":
       return {
         ...state,
         flightSearch: { ...state.flightSearch, ...action.payload },
       };
-    case 'searchFlights':
+    case "searchFlights":
       return {
         ...state,
         currentStep: Step.FlightResults,
       };
-    case 'flightSelected':
+    case "flightSelected":
       return {
         ...state,
         selectedFlight: action.payload.flight,
         currentStep: Step.HotelSearch,
       };
-    case 'changeFlight':
+    case "changeFlight":
       return {
         ...state,
         currentStep: Step.FlightSearch,
       };
-    case 'hotelSearchUpdated':
+    case "hotelSearchUpdated":
       return {
         ...state,
         hotelSearch: { ...state.hotelSearch, ...action.payload },
       };
-    case 'searchHotels':
+    case "searchHotels":
       return {
         ...state,
         currentStep: Step.HotelResults,
       };
-    case 'hotelSelected':
+    case "hotelSelected":
       return {
         ...state,
         selectedHotel: action.payload.hotel,
         currentStep: Step.Review,
       };
-    case 'changeHotel':
+    case "changeHotel":
       return {
         ...state,
         currentStep: Step.HotelSearch,
       };
-    case 'book':
+    case "book":
       return {
         ...state,
         currentStep: Step.Confirmation,
       };
-    case 'back':
+    case "back":
       switch (state.currentStep) {
         case Step.FlightResults:
           return {
