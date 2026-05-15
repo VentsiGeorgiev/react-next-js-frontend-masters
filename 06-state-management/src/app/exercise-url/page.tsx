@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { LoadingSkeleton } from "./LoadingSkeleton";
+import { useQueryState } from "nuqs";
 
 interface Layover {
   city: string;
@@ -173,9 +174,9 @@ function BookingForm({
   passengers: number;
   setPassengers: (value: number) => void;
 }) {
-  const [destination, setDestination] = useState("");
-  const [departure, setDeparture] = useState("");
-  const [arrival, setArrival] = useState("");
+  const [destination, setDestination] = useQueryState("destination");
+  const [departure, setDeparture] = useQueryState("departure");
+  const [arrival, setArrival] = useQueryState("arrival");
   const [isOneWay, setIsOneWay] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
