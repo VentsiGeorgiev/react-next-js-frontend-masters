@@ -1,83 +1,62 @@
 # State Management at Scale in React & Next.js
+
 This is a companion repository for the [State Management at Scale in React & Next.js](https://frontendmasters.com/courses/react-nextjs-state/) course on Frontend Masters.
+
 [![Frontend Masters](https://static.frontendmasters.com/assets/brand/logos/full.png)](https://frontendmasters.com/courses/react-nextjs-state/)
 
-In this course, we'll build and evolve a production-ready React application with scalable state management patterns. We'll start with the basics and progressively tackle more complex state challenges by implementing event-driven architecture, handling multiple sources of truth, and optimizing performance.
+## Certificate
 
-## Course Overview
+![State Management at Scale in React & Next.js Certificate](./certificate/react-nextjs.jpg)
 
-You'll learn state management principles that can be applied to any application, regardless of framework, size, or complexity. This course combines theory with hands-on practice through a series of progressive exercises.
+## Course Description
 
-### Key Takeaways
-
-By participating in this course, you'll learn to:
-
-- **Architect state management solutions** that scale with application complexity
-- **Avoid common React state management pitfalls** and anti-patterns
-- **Model state using event-driven patterns** for more predictable applications
-- **Balance local, shared, and server state** for optimal performance
-- **Debug and troubleshoot complex state issues** efficiently
+Solve challenging state management problems and build applications that reliably scale with your team. Recognize anti-patterns and learn complex state optimizations with data normalization, form data, and reducers. Refactor messy data stores to leverage an event-driven approach and dive into advanced use cases with URL parameters and syncing with external data stores.
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js 20+ and a package manager (pnpm, npm, or yarn) installed
-- Basic knowledge of React and TypeScript
-
-### Installation
+Install dependencies:
 
 ```bash
-# or npm install or yarn install
-pnpm install
+npm install
 ```
 
-### Development
+Start the development server:
 
 ```bash
-# or npm run dev or yarn dev
-pnpm dev
+npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the course application.
+Open [http://localhost:3000](http://localhost:3000) to view the course application.
 
-### Testing
+Run tests:
 
 ```bash
-# or npm test or yarn test
-pnpm test
+npm test
 ```
 
-## Course Schedule & Exercises
+## Course Exercises
 
-- [Exercise: Antipatterns](http://localhost:3000/exercise-antipatterns) [(📃 Code)](./src/app/exercise-antipatterns/page.tsx) - Common React state management mistakes
-- [Exercise: Diagrams](http://localhost:3000/exercise-diagrams) [(📃 Code)](./src/app/exercise-diagrams/readme.md) - State visualization techniques
-- [Exercise: Finite states](http://localhost:3000/exercise-finite) [(📃 Code)](page.tsx) - Combining state patterns
-- [Exercise: Reducers](http://localhost:3000/exercise-reducer) [(📃 Code)](./src/app/exercise-reducer/page.tsx) - Building with `useReducer`
-- [Exercise: Forms](http://localhost:3000/exercise-form) [(📃 Code)](./src/app/exercise-form/page.tsx) - Form handling
-- [Exercise: URL](http://localhost:3000/exercise-url) [(📃 Code)](./src/app/exercise-url/page.tsx) - URL state synchronization
-- [Exercise: Fetch](http://localhost:3000/exercise-fetch) [(📃 Code)](./src/app/exercise-fetch/page.tsx) - Data fetching patterns
-- [Exercise: Libraries](http://localhost:3000/exercise-libraries) [(📃 Code)](./src/app/exercise-libraries/page.tsx) - State management libraries
-- [Exercise: Normalization](http://localhost:3000/exercise-normalization) [(📃 Code)](./src/app/exercise-normalization/page.tsx) - Data normalization
-- [Exercise: Effects](http://localhost:3000/exercise-effects) [(📃 Code)](./src/app/exercise-effects/page.tsx) - Refactoring cascading `useEffect`s
-- [Exercise: Sync](http://localhost:3000/exercise-sync) [(📃 Code)](./src/app/exercise-sync/page.tsx) - Synchronization patterns with `useSyncExternalStore`
-- [Exercise: Test](http://localhost:3000/exercise-test) [(📃 Code)](./src/app/exercise-test/bookingFlow.test.ts) - Testing state management
+- **Antipatterns** - Common React state management mistakes
+- **Diagrams** - Visualizing state and data flow
+- **Finite States** - Modeling UI with explicit states
+- **Reducers** - Managing complex state with reducer patterns
+- **Forms** - Handling form data and user input
+- **URL State** - Synchronizing state with URL parameters
+- **Fetch** - Coordinating local state with server data
+- **Libraries** - Comparing state management library approaches
+- **Normalization** - Structuring data for scalable updates
+- **Effects** - Refactoring cascading effects
+- **Sync** - Syncing with external stores
+- **Test** - Testing state management behavior
 
-## Technologies Used
+## Tech Stack
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **State Management**: React hooks, XState Store, TanStack Query
-- **Database**: SQLite with Drizzle ORM
-- **Testing**: Vitest with Testing Library
-- **UI Components**: ShadCN (Radix UI primitives)
-
-## Additional Resources
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [React Documentation](https://react.dev)
-- [XState Store Documentation](https://stately.ai/docs/xstate-store)
-- [TanStack Query Documentation](https://tanstack.com/query)
-
-Happy coding! 🚀
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS
+- Drizzle ORM with SQLite
+- TanStack Query
+- Redux Toolkit
+- XState Store
+- Vitest
