@@ -2,6 +2,10 @@
 This is a companion repository for the [React Performance, v2](https://frontendmasters.com/courses/react-performance-v2) course on Frontend Masters.
 [![Frontend Masters](https://static.frontendmasters.com/assets/brand/logos/full.png)](https://frontendmasters.com/courses/react-performance-v2)
 
+## Certificate
+
+![React Performance, v2 Certificate](./certificate/react-performance-v2.jpg)
+
 ## React Performance Labs: Running Examples
 
 This project includes multiple React examples demonstrating performance optimization techniques with. To switch between examples:
